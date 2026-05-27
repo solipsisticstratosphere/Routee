@@ -1,0 +1,81 @@
+import { StyleSheet, TextStyle } from 'react-native'
+import { Colors, FontSize, Fonts } from './tokens'
+
+export const T = StyleSheet.create({
+  display: {
+    fontFamily: Fonts.display,
+    fontSize: 28,
+    fontWeight: '700',
+    letterSpacing: -0.6,
+    lineHeight: 31,
+    color: Colors.text,
+  } as TextStyle,
+  h1: {
+    fontFamily: Fonts.display,
+    fontSize: 24,
+    fontWeight: '700',
+    letterSpacing: -0.4,
+    lineHeight: 28,
+    color: Colors.text,
+  } as TextStyle,
+  h2: {
+    fontFamily: Fonts.display,
+    fontSize: 20,
+    fontWeight: '600',
+    letterSpacing: -0.3,
+    lineHeight: 24,
+    color: Colors.text,
+  } as TextStyle,
+  h3: {
+    fontFamily: Fonts.display,
+    fontSize: 17,
+    fontWeight: '600',
+    letterSpacing: -0.2,
+    lineHeight: 21,
+    color: Colors.text,
+  } as TextStyle,
+  body: {
+    fontFamily: Fonts.body,
+    fontSize: 15,
+    fontWeight: '400',
+    lineHeight: 21,
+    color: Colors.text,
+  } as TextStyle,
+  bodyB: {
+    fontFamily: Fonts.bodyBold,
+    fontSize: 15,
+    fontWeight: '600',
+    lineHeight: 21,
+    color: Colors.text,
+  } as TextStyle,
+  sm: {
+    fontFamily: Fonts.bodyMedium,
+    fontSize: 13,
+    fontWeight: '500',
+    lineHeight: 17,
+    color: Colors.text,
+  } as TextStyle,
+  xs: {
+    fontFamily: Fonts.bodyBold,
+    fontSize: 11,
+    fontWeight: '600',
+    lineHeight: 13,
+    letterSpacing: 0.4,
+    textTransform: 'uppercase',
+    color: Colors.text2,
+  } as TextStyle,
+  mono: {
+    fontFamily: Fonts.mono,
+    fontSize: 14,
+    fontWeight: '500',
+    letterSpacing: -0.3,
+    color: Colors.text,
+  } as TextStyle,
+  monoBig: {
+    fontFamily: Fonts.monoBold,
+    fontSize: 22,
+    fontWeight: '700',
+    letterSpacing: -0.5,
+    color: Colors.text,
+  } as TextStyle,
+})
