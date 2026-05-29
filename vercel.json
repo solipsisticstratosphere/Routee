@@ -1,6 +1,6 @@
 {
   "cleanUrls": true,
-  "buildCommand": "npx expo export --platform web",
+  "buildCommand": "chmod +x ./node_modules/.bin/expo && npx expo export --platform web",
   "outputDirectory": "dist",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
