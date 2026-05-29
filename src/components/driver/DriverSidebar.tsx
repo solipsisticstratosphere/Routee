@@ -5,6 +5,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
+import { useTranslation } from 'react-i18next'
 import { Colors, Fonts, Radius, Spacing } from '../../theme'
 import { Avatar } from '../shared/Avatar'
 import { OnlineToggle } from './OnlineToggle'
@@ -21,6 +22,7 @@ const CLOSE_EASING = Easing.in(Easing.cubic)
 export function DriverSidebar() {
   const insets = useSafeAreaInsets()
   const navigation = useNavigation<any>()
+  const { t } = useTranslation()
   const { user, logout } = useAuthStore()
   const { isOnline, earnings, toggleOnline } = useDriverStore()
   const { isOpen, close } = useDriverSidebar()
@@ -83,7 +85,7 @@ export function DriverSidebar() {
             <Text style={styles.name} numberOfLines={1}>{user?.name ?? 'Driver'}</Text>
             <StatusPill
               color={isOnline ? Colors.mint : Colors.text3}
-              label={isOnline ? 'Online' : 'Offline'}
+              label={isOnline ? t('driverDashboard.onlineStatus').replace('● ', '') : t('driverDashboard.offlineStatus').replace('○ ', '')}
             />
           </View>
           <Pressable onPress={close} style={styles.closeBtn}>
@@ -95,9 +97,9 @@ export function DriverSidebar() {
 
         <View style={styles.toggleRow}>
           <View style={{ flex: 1 }}>
-            <Text style={styles.toggleLabel}>Go Online</Text>
+            <Text style={styles.toggleLabel}>{t('sidebar.goOnline')}</Text>
             <Text style={styles.toggleSub}>
-              {isOnline ? 'Accepting orders' : 'Toggle to start accepting'}
+              {isOnline ? t('sidebar.acceptingOrders') : t('sidebar.startAccepting')}
             </Text>
           </View>
           <OnlineToggle value={isOnline} onToggle={toggleOnline} />
@@ -105,26 +107,26 @@ export function DriverSidebar() {
 
         <View style={styles.divider} />
 
-        <Text style={styles.sectionLabel}>Earnings</Text>
+        <Text style={styles.sectionLabel}>{t('sidebar.earnings')}</Text>
         <View style={styles.statsRow}>
-          <StatCard label="Today" value={`$${earnings.today}`} color={Colors.mint} />
-          <StatCard label="Week" value={`$${earnings.week}`} color={Colors.orange} />
-          <StatCard label="Trips" value={String(totalTrips)} color={Colors.text} />
+          <StatCard label={t('sidebar.today')} value={`$${earnings.today}`} color={Colors.mint} />
+          <StatCard label={t('sidebar.week')} value={`$${earnings.week}`} color={Colors.orange} />
+          <StatCard label={t('sidebar.trips')} value={String(totalTrips)} color={Colors.text} />
         </View>
 
         <Pressable style={styles.navLink} onPress={() => goToTab('DashTab')}>
           <ZapIcon size={17} color={Colors.mint} />
-          <Text style={styles.navLinkText}>Dashboard</Text>
+          <Text style={styles.navLinkText}>{t('sidebar.dashboard')}</Text>
         </Pressable>
 
         <Pressable style={styles.navLink} onPress={() => goToTab('EarningsTab')}>
           <TrendIcon size={17} color={Colors.orange} />
-          <Text style={styles.navLinkText}>Earnings</Text>
+          <Text style={styles.navLinkText}>{t('sidebar.earnings')}</Text>
         </Pressable>
 
         <Pressable style={styles.navLink} onPress={() => goToTab('ProfileTab')}>
           <UserIcon size={17} color={Colors.text2} />
-          <Text style={styles.navLinkText}>Profile</Text>
+          <Text style={styles.navLinkText}>{t('sidebar.profile')}</Text>
         </Pressable>
 
         <View style={{ flex: 1 }} />
@@ -133,14 +135,14 @@ export function DriverSidebar() {
           style={styles.logoutBtn}
           onPress={() => {
             close()
-            Alert.alert('Logout', 'Are you sure?', [
-              { text: 'Cancel', style: 'cancel' },
-              { text: 'Logout', style: 'destructive', onPress: logout },
+            Alert.alert(t('shared.logoutTitle'), t('shared.logoutConfirm'), [
+              { text: t('shared.cancel'), style: 'cancel' },
+              { text: t('shared.logout'), style: 'destructive', onPress: logout },
             ])
           }}
         >
           <PowerIcon size={17} color={Colors.red} />
-          <Text style={styles.logoutText}>Log Out</Text>
+          <Text style={styles.logoutText}>{t('shared.logout')}</Text>
         </Pressable>
       </Animated.View>
     </>

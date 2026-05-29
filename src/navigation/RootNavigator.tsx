@@ -1,4 +1,3 @@
-import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { useAuthStore } from '../store/authStore'
@@ -7,7 +6,6 @@ import { DriverTabsNavigator } from './DriverTabs'
 import SplashScreen from '../screens/shared/SplashScreen'
 import AuthScreen from '../screens/shared/AuthScreen'
 import PaymentScreen from '../screens/customer/PaymentScreen'
-import IncomingOrderScreen from '../screens/driver/IncomingOrderScreen'
 import QRScanScreen from '../screens/driver/QRScanScreen'
 
 export type RootStackParamList = {
@@ -24,7 +22,6 @@ export type CustomerMainParamList = {
 
 export type DriverMainParamList = {
   DriverTabs: undefined
-  IncomingOrder: undefined
   QRScan: undefined
 }
 
@@ -49,12 +46,7 @@ function DriverMain() {
   return (
     <DriverStack.Navigator screenOptions={{ headerShown: false }}>
       <DriverStack.Screen name="DriverTabs" component={DriverTabsNavigator} />
-      <DriverStack.Screen
-        name="IncomingOrder"
-        component={IncomingOrderScreen}
-        options={{ presentation: 'modal', animation: 'slide_from_bottom' }}
-      />
-      <DriverStack.Screen
+<DriverStack.Screen
         name="QRScan"
         component={QRScanScreen}
         options={{ presentation: 'modal', animation: 'slide_from_bottom' }}

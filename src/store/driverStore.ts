@@ -15,11 +15,14 @@ interface DriverState {
   earnings: EarningsState
   incomingOrder: Order | null
   incomingTimer: ReturnType<typeof setTimeout> | null
+  carModel: string
+  plate: string
   toggleOnline: () => void
   acceptOrder: (order: Order) => void
   declineOrder: () => void
   completeOrder: () => void
   mockIncomingOrder: () => void
+  updateVehicle: (carModel: string, plate: string) => void
 }
 
 export const useDriverStore = create<DriverState>((set, get) => ({
@@ -27,6 +30,8 @@ export const useDriverStore = create<DriverState>((set, get) => ({
   currentOrder: null,
   incomingOrder: null,
   incomingTimer: null,
+  carModel: 'Toyota Corolla',
+  plate: 'AX3421CM',
   earnings: {
     today: mockEarnings[mockEarnings.length - 1].amount,
     week: mockEarnings.reduce((s, e) => s + e.amount, 0),
@@ -45,6 +50,9 @@ export const useDriverStore = create<DriverState>((set, get) => ({
   },
 
   mockIncomingOrder: () => {
+    const { incomingTimer } = get()
+    if (incomingTimer) clearTimeout(incomingTimer)
+
     const timer = setTimeout(() => {
       const tpl = orderTemplates[0]
       const order: Order = {
@@ -59,20 +67,26 @@ export const useDriverStore = create<DriverState>((set, get) => ({
         eta: tpl.eta ?? 11,
         createdAt: new Date().toISOString(),
       }
-      set({ incomingOrder: order })
+      set({ incomingOrder: order, incomingTimer: null })
     }, 5000)
     set({ incomingTimer: timer })
   },
 
   acceptOrder: (order) => {
-    set({ currentOrder: { ...order, status: 'confirmed' }, incomingOrder: null })
+    const { incomingTimer } = get()
+    if (incomingTimer) clearTimeout(incomingTimer)
+    set({ currentOrder: { ...order, status: 'confirmed' }, incomingOrder: null, incomingTimer: null })
   },
 
   declineOrder: () => {
-    set({ incomingOrder: null })
+    const { incomingTimer } = get()
+    if (incomingTimer) clearTimeout(incomingTimer)
+
+    set({ incomingOrder: null, incomingTimer: null })
     const { isOnline } = get()
     if (isOnline) {
-      setTimeout(() => get().mockIncomingOrder(), 8000)
+      const timer = setTimeout(() => get().mockIncomingOrder(), 8000)
+      set({ incomingTimer: timer })
     }
   },
 
@@ -92,5 +106,9 @@ export const useDriverStore = create<DriverState>((set, get) => ({
         history: [...earnings.history, newHistory],
       },
     })
+  },
+
+  updateVehicle: (carModel, plate) => {
+    set({ carModel, plate })
   },
 }))

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import QRCode from 'react-native-qrcode-svg'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { useTranslation } from 'react-i18next'
 import { Colors, Fonts, Radius, Spacing, T } from '../../theme'
 import { StatusTimeline } from '../../components/shared/StatusTimeline'
 import { CTA } from '../../components/shared/CTA'
@@ -11,17 +12,18 @@ import { CustomerMapStackParamList } from '../../navigation/CustomerTabs'
 
 type Props = { navigation: StackNavigationProp<CustomerMapStackParamList, 'DeliveryQR'> }
 
-const STEPS = [
-  { label: 'Order Confirmed', sublabel: 'Driver assigned' },
-  { label: 'Picked Up', sublabel: 'On the way' },
-  { label: 'Out for Delivery', sublabel: 'Almost there' },
-  { label: 'Delivered', sublabel: 'Thank you!' },
-]
-
 export default function DeliveryQRScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets()
+  const { t } = useTranslation()
   const { currentOrder, updateStatus, cancelOrder } = useOrderStore()
   const [activeStep, setActiveStep] = useState(2)
+
+  const STEPS = [
+    { label: t('deliveryQR.step0'), sublabel: t('deliveryQR.step0Sub') },
+    { label: t('deliveryQR.step1'), sublabel: t('deliveryQR.step1Sub') },
+    { label: t('deliveryQR.step2'), sublabel: t('deliveryQR.step2Sub') },
+    { label: t('deliveryQR.step3'), sublabel: t('deliveryQR.step3Sub') },
+  ]
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -35,7 +37,7 @@ export default function DeliveryQRScreen({ navigation }: Props) {
 
   return (
     <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
-      <Text style={[T.h2, styles.title]}>Delivery</Text>
+      <Text style={[T.h2, styles.title]}>{t('deliveryQR.title')}</Text>
 
       <View style={styles.card}>
         <StatusTimeline steps={STEPS} activeStep={activeStep} />
@@ -43,7 +45,7 @@ export default function DeliveryQRScreen({ navigation }: Props) {
 
       <View style={styles.qrContainer}>
         <Text style={[T.sm, { color: Colors.text2, marginBottom: Spacing.s3, textAlign: 'center' }]}>
-          Show this code to driver
+          {t('deliveryQR.showCode')}
         </Text>
         <View style={styles.qrBox}>
           <QRCode
@@ -65,7 +67,7 @@ export default function DeliveryQRScreen({ navigation }: Props) {
             navigation.navigate('HomeMap')
           }}>
             <Text style={{ fontFamily: Fonts.bodyBold, fontSize: 16, color: '#02110B', fontWeight: '700' }}>
-              Back to Home
+              {t('deliveryQR.backToHome')}
             </Text>
           </CTA>
         </View>

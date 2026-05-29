@@ -18,6 +18,8 @@ const options: VehicleOption[] = [
   { type: 'van', label: 'Van', price: 140, eta: 15 },
 ]
 
+import { useTranslation } from 'react-i18next'
+
 interface VehicleTypeSelectorProps {
   selected: VehicleType
   onSelect: (type: VehicleType) => void
@@ -30,6 +32,7 @@ const VehicleIcon = ({ type, color }: { type: VehicleType; color: string }) => {
 }
 
 export function VehicleTypeSelector({ selected, onSelect }: VehicleTypeSelectorProps) {
+  const { t } = useTranslation()
   return (
     <FlatList
       data={options}
@@ -49,12 +52,12 @@ export function VehicleTypeSelector({ selected, onSelect }: VehicleTypeSelectorP
           >
             <VehicleIcon type={item.type} color={isSelected ? Colors.mint : Colors.text2} />
             <Text style={[styles.label, { color: isSelected ? Colors.text : Colors.text2 }]}>
-              {item.label}
+              {t(`shared.${item.type}`, { defaultValue: item.label })}
             </Text>
             <Text style={[styles.price, { color: isSelected ? Colors.mint : Colors.text3 }]}>
               ${item.price}
             </Text>
-            <Text style={styles.eta}>{item.eta} min</Text>
+            <Text style={styles.eta}>{t('shared.minAwayValue', { eta: item.eta, defaultValue: `${item.eta} min` })}</Text>
           </Pressable>
         )
       }}

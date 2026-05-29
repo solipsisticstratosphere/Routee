@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable, TextInput, Alert } from 'react-nativ
 import { CameraView, useCameraPermissions } from 'expo-camera'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
+import { useTranslation } from 'react-i18next'
 import { Colors, Fonts, Radius, Spacing, T } from '../../theme'
 import { QRFrame } from '../../components/shared/QRFrame'
 import { CTA } from '../../components/shared/CTA'
@@ -12,6 +13,7 @@ import { useDriverStore } from '../../store/driverStore'
 export default function QRScanScreen() {
   const insets = useSafeAreaInsets()
   const navigation = useNavigation<any>()
+  const { t } = useTranslation()
   const [permission, requestPermission] = useCameraPermissions()
   const [scanned, setScanned] = useState(false)
   const [manualCode, setManualCode] = useState('')
@@ -24,8 +26,8 @@ export default function QRScanScreen() {
     if (data === currentOrder?.id || data.length > 4) {
       handleSuccess()
     } else {
-      Alert.alert('Invalid QR', 'Code does not match.', [
-        { text: 'Try Again', onPress: () => setScanned(false) },
+      Alert.alert(t('qrScan.alertInvalidQrTitle'), t('qrScan.alertInvalidQrMsg'), [
+        { text: t('qrScan.alertTryAgain'), onPress: () => setScanned(false) },
       ])
     }
   }
@@ -42,10 +44,10 @@ export default function QRScanScreen() {
     return (
       <View style={[styles.container, styles.center]}>
         <Text style={[T.body, { color: Colors.text2, textAlign: 'center', paddingHorizontal: 40 }]}>
-          Camera access is needed to scan delivery QR codes.
+          {t('qrScan.permissionRequired')}
         </Text>
         <CTA onPress={requestPermission} color="mint" full={false}>
-          <Text style={{ fontFamily: Fonts.bodyBold, color: '#02110B' }}>Grant Permission</Text>
+          <Text style={{ fontFamily: Fonts.bodyBold, color: '#02110B' }}>{t('qrScan.grantPermission')}</Text>
         </CTA>
       </View>
     )
@@ -77,26 +79,26 @@ export default function QRScanScreen() {
             <Pressable onPress={() => navigation.goBack()} style={styles.closeBtn}>
               <CloseIcon size={18} color={Colors.text} />
             </Pressable>
-            <Text style={[T.h3, { flex: 1, textAlign: 'center' }]}>Scan QR Code</Text>
+            <Text style={[T.h3, { flex: 1, textAlign: 'center' }]}>{t('qrScan.title')}</Text>
             <View style={{ width: 36 }} />
           </View>
 
           {/* manual entry */}
           <View style={[styles.manual, { bottom: insets.bottom + 24 }]}>
             <Text style={[T.sm, { color: Colors.text2, textAlign: 'center', marginBottom: 8 }]}>
-              Or enter code manually
+              {t('qrScan.manualEntryHint')}
             </Text>
             <View style={styles.manualRow}>
               <TextInput
                 style={styles.codeInput}
                 value={manualCode}
                 onChangeText={setManualCode}
-                placeholder="Order code"
+                placeholder={t('qrScan.manualPlaceholder')}
                 placeholderTextColor={Colors.text3}
                 autoCapitalize="none"
               />
               <Pressable
-                onPress={() => manualCode.length >= 4 ? handleSuccess() : Alert.alert('Enter a valid code')}
+                onPress={() => manualCode.length >= 4 ? handleSuccess() : Alert.alert(t('qrScan.alertEnterValidCode'))}
                 style={styles.submitBtn}
               >
                 <CheckIcon size={18} color={Colors.bg} />
@@ -109,9 +111,9 @@ export default function QRScanScreen() {
           <View style={styles.successIcon}>
             <CheckIcon size={36} color={Colors.mint} />
           </View>
-          <Text style={[T.h2, { color: Colors.mint, textAlign: 'center' }]}>Order Complete!</Text>
+          <Text style={[T.h2, { color: Colors.mint, textAlign: 'center' }]}>{t('qrScan.orderComplete')}</Text>
           <Text style={[T.body, { color: Colors.text2, textAlign: 'center' }]}>
-            Delivery confirmed. Great work!
+            {t('qrScan.deliveryConfirmed')}
           </Text>
         </View>
       )}

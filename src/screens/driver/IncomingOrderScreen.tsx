@@ -1,14 +1,14 @@
 import React, { useEffect, useCallback } from 'react'
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 import Animated, {
-  useSharedValue, useAnimatedProps, withTiming, Easing, runOnJS,
+  useSharedValue, useAnimatedProps, withTiming, Easing, runOnJS, cancelAnimation,
 } from 'react-native-reanimated'
 import Svg, { Circle } from 'react-native-svg'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useNavigation } from '@react-navigation/native'
+import { useTranslation } from 'react-i18next'
 import { Colors, Fonts, Radius, Spacing, T } from '../../theme'
 import { CTA } from '../../components/shared/CTA'
-import { PinIcon, ZapIcon, ClockIcon } from '../../components/shared/Icons'
+import { ZapIcon, ClockIcon } from '../../components/shared/Icons'
 import { useDriverStore } from '../../store/driverStore'
 
 const RADIUS = 44
@@ -16,16 +16,21 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 
-export default function IncomingOrderScreen() {
+interface Props {
+  onAccepted?: () => void
+}
+
+export default function IncomingOrderScreen({ onAccepted }: Props) {
   const insets = useSafeAreaInsets()
-  const navigation = useNavigation<any>()
+  const { t } = useTranslation()
   const { incomingOrder, acceptOrder, declineOrder } = useDriverStore()
+
+  const [orderData] = React.useState(incomingOrder)
 
   const strokeDash = useSharedValue(0)
 
   const handleDecline = useCallback(() => {
     declineOrder()
-    navigation.goBack()
   }, [declineOrder])
 
   useEffect(() => {
@@ -35,6 +40,9 @@ export default function IncomingOrderScreen() {
     }, (finished) => {
       if (finished) runOnJS(handleDecline)()
     })
+    return () => {
+      cancelAnimation(strokeDash)
+    }
   }, [])
 
   const animatedProps = useAnimatedProps(() => ({
@@ -42,12 +50,15 @@ export default function IncomingOrderScreen() {
   }))
 
   const handleAccept = () => {
-    if (!incomingOrder) return
-    acceptOrder(incomingOrder)
-    navigation.navigate('DriverTabs', { screen: 'DashTab', params: { screen: 'NavigationToPickup' } })
+    const orderToAccept = incomingOrder || orderData
+    if (!orderToAccept) return
+    acceptOrder(orderToAccept)
+    onAccepted?.()
   }
 
-  if (!incomingOrder) return null
+  if (!orderData) {
+    return <View style={{ flex: 1, backgroundColor: Colors.surface }} />
+  }
 
   return (
     <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
@@ -78,44 +89,44 @@ export default function IncomingOrderScreen() {
           </View>
         </View>
 
-        <Text style={T.h1}>Incoming Order</Text>
+        <Text style={T.h1}>{t('incomingOrder.title')}</Text>
         <Text style={[T.sm, { color: Colors.text2, textAlign: 'center', marginTop: 4 }]}>
-          Accept within 10 seconds
+          {t('incomingOrder.subtitle')}
         </Text>
 
         {/* payout */}
         <View style={styles.payoutBadge}>
-          <Text style={styles.payoutAmount}>${incomingOrder.price}</Text>
-          <Text style={styles.payoutLabel}>Payout</Text>
+          <Text style={styles.payoutAmount}>${orderData.price}</Text>
+          <Text style={styles.payoutLabel}>{t('incomingOrder.payout')}</Text>
         </View>
 
         {/* details */}
         <View style={styles.detailsCard}>
           <DetailRow
             icon={<View style={[styles.dot, { backgroundColor: Colors.mint }]} />}
-            label={incomingOrder.pickup.address}
+            label={t(`addresses.${orderData.pickup.address}`, { defaultValue: orderData.pickup.address })}
           />
           <View style={styles.divider} />
           <DetailRow
             icon={<View style={[styles.dot, { backgroundColor: Colors.orange }]} />}
-            label={incomingOrder.dropoff.address}
+            label={t(`addresses.${orderData.dropoff.address}`, { defaultValue: orderData.dropoff.address })}
           />
           <View style={styles.divider} />
           <DetailRow
             icon={<ClockIcon size={14} color={Colors.text2} />}
-            label={`${incomingOrder.eta} min · ${incomingOrder.distance} km`}
+            label={`${t('shared.minAwayValue', { eta: orderData.eta })} · ${t('shared.kmValue', { distance: orderData.distance })}`}
           />
         </View>
 
         {/* actions */}
         <View style={styles.actions}>
           <Pressable onPress={handleDecline} style={styles.declineBtn}>
-            <Text style={styles.declineText}>Decline</Text>
+            <Text style={styles.declineText}>{t('incomingOrder.decline')}</Text>
           </Pressable>
           <View style={{ flex: 1 }}>
             <CTA color="orange" onPress={handleAccept}>
               <Text style={{ fontFamily: Fonts.bodyBold, fontSize: 16, color: '#1A0700', fontWeight: '700' }}>
-                Accept
+                {t('incomingOrder.accept')}
               </Text>
             </CTA>
           </View>

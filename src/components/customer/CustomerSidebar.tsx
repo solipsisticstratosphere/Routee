@@ -5,6 +5,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
+import { useTranslation } from 'react-i18next'
 import { Colors, Fonts, Radius, Spacing } from '../../theme'
 import { Avatar } from '../shared/Avatar'
 import { CloseIcon, HomeIcon, ListIcon, PowerIcon, UserIcon } from '../shared/Icons'
@@ -18,6 +19,7 @@ const CLOSE_EASING = Easing.in(Easing.cubic)
 export function CustomerSidebar() {
   const insets = useSafeAreaInsets()
   const navigation = useNavigation<any>()
+  const { t } = useTranslation()
   const { user, logout } = useAuthStore()
   const { isOpen, close } = useCustomerSidebar()
 
@@ -86,17 +88,17 @@ export function CustomerSidebar() {
 
         <Pressable style={styles.navLink} onPress={() => goToTab('MapTab')}>
           <HomeIcon size={17} color={Colors.mint} />
-          <Text style={styles.navLinkText}>Map</Text>
+          <Text style={styles.navLinkText}>{t('sidebar.map')}</Text>
         </Pressable>
 
         <Pressable style={styles.navLink} onPress={() => goToTab('OrdersTab')}>
           <ListIcon size={17} color={Colors.orange} />
-          <Text style={styles.navLinkText}>Orders</Text>
+          <Text style={styles.navLinkText}>{t('sidebar.orders')}</Text>
         </Pressable>
 
         <Pressable style={styles.navLink} onPress={() => goToTab('ProfileTab')}>
           <UserIcon size={17} color={Colors.text2} />
-          <Text style={styles.navLinkText}>Profile</Text>
+          <Text style={styles.navLinkText}>{t('sidebar.profile')}</Text>
         </Pressable>
 
         <View style={{ flex: 1 }} />
@@ -105,14 +107,14 @@ export function CustomerSidebar() {
           style={styles.logoutBtn}
           onPress={() => {
             close()
-            Alert.alert('Logout', 'Are you sure?', [
-              { text: 'Cancel', style: 'cancel' },
-              { text: 'Logout', style: 'destructive', onPress: logout },
+            Alert.alert(t('shared.logoutTitle'), t('shared.logoutConfirm'), [
+              { text: t('shared.cancel'), style: 'cancel' },
+              { text: t('shared.logout'), style: 'destructive', onPress: logout },
             ])
           }}
         >
           <PowerIcon size={17} color={Colors.red} />
-          <Text style={styles.logoutText}>Log Out</Text>
+          <Text style={styles.logoutText}>{t('shared.logout')}</Text>
         </Pressable>
       </Animated.View>
     </>

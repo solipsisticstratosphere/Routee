@@ -1,15 +1,18 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, Modal, StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
+import { useNavigation } from '@react-navigation/native'
 
 import DriverDashboardScreen from '../screens/driver/DriverDashboardScreen'
 import NavigationToPickupScreen from '../screens/driver/NavigationToPickupScreen'
 import ActiveDeliveryScreen from '../screens/driver/ActiveDeliveryScreen'
 import EarningsSummaryScreen from '../screens/driver/EarningsSummaryScreen'
 import ProfileScreen from '../screens/shared/ProfileScreen'
+import IncomingOrderScreen from '../screens/driver/IncomingOrderScreen'
 import { DriverSidebarProvider } from '../contexts/DriverSidebarContext'
 import { DriverSidebar } from '../components/driver/DriverSidebar'
+import { useDriverStore } from '../store/driverStore'
 
 export type DriverStackParamList = {
   DriverDashboard: undefined
@@ -37,6 +40,16 @@ function DriverStackNavigator() {
 }
 
 export function DriverTabsNavigator() {
+  const incomingOrder = useDriverStore(state => state.incomingOrder)
+  const navigation = useNavigation<any>()
+
+  const handleOrderAccepted = () => {
+    navigation.navigate('DriverTabs', {
+      screen: 'DashTab',
+      params: { screen: 'NavigationToPickup' },
+    })
+  }
+
   return (
     <DriverSidebarProvider>
       <View style={styles.root}>
@@ -48,8 +61,18 @@ export function DriverTabsNavigator() {
           <Tab.Screen name="ProfileTab" component={ProfileScreen} />
         </Tab.Navigator>
 
-        {/* Sidebar renders on top of all tabs */}
         <DriverSidebar />
+
+        {/* Native modal — animates independently from the JS thread */}
+        <Modal
+          visible={!!incomingOrder}
+          animationType="slide"
+          transparent={false}
+          statusBarTranslucent
+          onRequestClose={() => {}}
+        >
+          <IncomingOrderScreen onAccepted={handleOrderAccepted} />
+        </Modal>
       </View>
     </DriverSidebarProvider>
   )

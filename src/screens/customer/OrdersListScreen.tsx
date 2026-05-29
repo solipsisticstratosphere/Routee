@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, FlatList, StyleSheet, Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useTranslation } from 'react-i18next'
 import { Colors, T, Spacing, Fonts, Radius } from '../../theme'
 import { StatusPill } from '../../components/shared/StatusPill'
 import { MenuIcon } from '../../components/shared/Icons'
@@ -10,6 +11,7 @@ import { useCustomerSidebar } from '../../contexts/CustomerSidebarContext'
 
 export default function OrdersListScreen() {
   const insets = useSafeAreaInsets()
+  const { t, i18n } = useTranslation()
   const { open } = useCustomerSidebar()
 
   const renderItem = ({ item }: { item: Order }) => (
@@ -19,12 +21,16 @@ export default function OrdersListScreen() {
           {item.vehicleType === 'bike' ? '🚲' : item.vehicleType === 'van' ? '🚐' : '🚗'}
         </Text>
         <View style={{ flex: 1 }}>
-          <Text style={styles.addr} numberOfLines={1}>→ {item.dropoff.address}</Text>
-          <Text style={styles.sub}>{new Date(item.createdAt).toLocaleDateString('uk-UA')}</Text>
+          <Text style={styles.addr} numberOfLines={1}>
+            → {t(`addresses.${item.dropoff.address}`, { defaultValue: item.dropoff.address })}
+          </Text>
+          <Text style={styles.sub}>
+            {new Date(item.createdAt).toLocaleDateString(i18n.language === 'uk' ? 'uk-UA' : 'en-US')}
+          </Text>
         </View>
         <View style={{ alignItems: 'flex-end', gap: 6 }}>
           <Text style={styles.price}>${item.price}</Text>
-          <StatusPill color={Colors.mint} label="Delivered" glow={false} />
+          <StatusPill color={Colors.mint} label={t('liveTracking.statusDelivered')} glow={false} />
         </View>
       </View>
     </View>
@@ -36,7 +42,7 @@ export default function OrdersListScreen() {
         <Pressable onPress={open} style={styles.menuBtn}>
           <MenuIcon size={20} color={Colors.text} />
         </Pressable>
-        <Text style={[T.h2, styles.headerTitle]}>Orders</Text>
+        <Text style={[T.h2, styles.headerTitle]}>{t('ordersList.title')}</Text>
         <View style={styles.headerSpacer} />
       </View>
       <FlatList

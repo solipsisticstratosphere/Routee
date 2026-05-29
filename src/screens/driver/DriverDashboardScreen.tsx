@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { useTranslation } from 'react-i18next'
 import { Colors, Fonts, Radius, T } from '../../theme'
 import { LeafletMap } from '../../components/map/LeafletMap'
-import { OnlineToggle } from '../../components/driver/OnlineToggle'
 import { StatusPill } from '../../components/shared/StatusPill'
 import { CTA } from '../../components/shared/CTA'
 import { MenuIcon } from '../../components/shared/Icons'
@@ -18,13 +17,9 @@ type NavProp = StackNavigationProp<DriverStackParamList, 'DriverDashboard'>
 export default function DriverDashboardScreen() {
   const insets = useSafeAreaInsets()
   const navigation = useNavigation<NavProp>()
-  const tabNavigation = useNavigation<any>()
-  const { isOnline, earnings, currentOrder, incomingOrder, toggleOnline } = useDriverStore()
+  const { t } = useTranslation()
+  const { isOnline, currentOrder } = useDriverStore()
   const { open } = useDriverSidebar()
-
-  useEffect(() => {
-    if (incomingOrder) tabNavigation.navigate('IncomingOrder')
-  }, [incomingOrder])
 
   return (
     <View style={styles.container}>
@@ -39,7 +34,7 @@ export default function DriverDashboardScreen() {
         </Pressable>
         <StatusPill
           color={isOnline ? Colors.mint : Colors.text3}
-          label={isOnline ? '● Online' : '○ Offline'}
+          label={isOnline ? t('driverDashboard.onlineStatus') : t('driverDashboard.offlineStatus')}
         />
       </View>
 
@@ -47,9 +42,9 @@ export default function DriverDashboardScreen() {
         <View style={[styles.bottomCard, { paddingBottom: insets.bottom + 16 }]}>
           <View style={styles.cardRow}>
             <View style={{ flex: 1 }}>
-              <Text style={[T.xs, { color: Colors.text3 }]}>Active Order</Text>
+              <Text style={[T.xs, { color: Colors.text3 }]}>{t('driverDashboard.activeOrder')}</Text>
               <Text style={[T.bodyB, { marginTop: 4 }]} numberOfLines={1}>
-                → {currentOrder.dropoff.address}
+                → {t(`addresses.${currentOrder.dropoff.address}`, { defaultValue: currentOrder.dropoff.address })}
               </Text>
             </View>
             <View style={styles.earnBadge}>
@@ -58,7 +53,7 @@ export default function DriverDashboardScreen() {
           </View>
           <CTA color="orange" size="md" onPress={() => navigation.navigate('NavigationToPickup')}>
             <Text style={{ fontFamily: Fonts.bodyBold, fontSize: 16, color: '#1A0700', fontWeight: '700' }}>
-              Navigate to Pickup
+              {t('driverDashboard.navigateToPickup')}
             </Text>
           </CTA>
         </View>

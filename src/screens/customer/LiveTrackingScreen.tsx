@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { View, Text, StyleSheet, Alert, Animated } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { useTranslation } from 'react-i18next'
 import { Colors, Fonts, Radius } from '../../theme'
 import { LeafletMap, LeafletMapRef } from '../../components/map/LeafletMap'
 import { DriverCard } from '../../components/driver/DriverCard'
@@ -10,16 +11,20 @@ import { useOrderStore } from '../../store/orderStore'
 import { mockDrivers } from '../../mock/mockDrivers'
 import { CustomerMapStackParamList } from '../../navigation/CustomerTabs'
 import { LatLng } from '../../types'
+import { useDriverStore } from '../../store/driverStore'
 
 type Props = { navigation: StackNavigationProp<CustomerMapStackParamList, 'LiveTracking'> }
 
 export default function LiveTrackingScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets()
+  const { t } = useTranslation()
   const mapRef = useRef<LeafletMapRef>(null)
-  const { currentOrder, orderStatus, driverCoords, assignedDriver, mockDriverMovement } = useOrderStore()
+  const { currentOrder, orderStatus, driverCoords, assignedDriver, mockDriverMovement, cancelOrder } = useOrderStore()
   const [eta, setEta] = useState(currentOrder?.eta ?? 11)
 
-  const driver = assignedDriver ?? mockDrivers[0]
+  const { carModel: customCarModel, plate: customPlate } = useDriverStore()
+  const rawDriver = assignedDriver ?? mockDrivers[0]
+  const driver = rawDriver.id === 'd1' ? { ...rawDriver, carModel: customCarModel, plate: customPlate } : rawDriver
 
   const pulseAnim = useRef(new Animated.Value(1)).current
 
@@ -57,10 +62,10 @@ export default function LiveTrackingScreen({ navigation }: Props) {
   }, [orderStatus])
 
   const statusLabel =
-    orderStatus === 'confirmed' ? 'Driver en route'
-    : orderStatus === 'in_progress' ? 'Delivering…'
-    : orderStatus === 'delivered' ? 'Delivered!'
-    : 'Searching…'
+    orderStatus === 'confirmed' ? t('liveTracking.statusConfirmed')
+    : orderStatus === 'in_progress' ? t('liveTracking.statusDelivering')
+    : orderStatus === 'delivered' ? t('liveTracking.statusDelivered')
+    : t('liveTracking.statusSearching')
 
   const dropoffCoords: LatLng = currentOrder?.dropoff.coords ?? { latitude: 50.0012, longitude: 36.2284 }
   const routeToDropoff: LatLng[] = [driverCoords, dropoffCoords]
@@ -82,19 +87,27 @@ export default function LiveTrackingScreen({ navigation }: Props) {
           <View style={styles.statusLeft}>
             <Animated.View style={[styles.statusDot, { backgroundColor: statusColor, opacity: pulseAnim }]} />
             <View>
-              <Text style={styles.statusHint}>Order Status</Text>
+              <Text style={styles.statusHint}>{t('liveTracking.statusLabel')}</Text>
               <Text style={[styles.statusTitle, { color: statusColor }]}>{statusLabel}</Text>
             </View>
           </View>
           <View style={[styles.etaBadge, { borderColor: `${Colors.mint}35` }]}>
             <Text style={styles.etaNum}>{eta}</Text>
-            <Text style={styles.etaUnit}>min away</Text>
+            <Text style={styles.etaUnit}>{t('liveTracking.minAway')}</Text>
           </View>
         </View>
 
         <DriverCard driver={driver} />
-        <CTA color="surf" size="md" onPress={() => Alert.alert('Cancel', 'Cancel this order?')}>
-          <Text style={{ fontFamily: Fonts.body, color: Colors.text }}>Cancel Order</Text>
+        <CTA color="surf" size="md" onPress={() => {
+          Alert.alert(t('liveTracking.cancelConfirmTitle'), t('liveTracking.cancelConfirmMsg'), [
+            { text: t('shared.cancel'), style: 'cancel' },
+            { text: t('liveTracking.cancelOrder'), style: 'destructive', onPress: () => {
+              cancelOrder()
+              navigation.navigate('HomeMap')
+            }}
+          ])
+        }}>
+          <Text style={{ fontFamily: Fonts.body, color: Colors.text }}>{t('liveTracking.cancelOrder')}</Text>
         </CTA>
       </View>
     </View>

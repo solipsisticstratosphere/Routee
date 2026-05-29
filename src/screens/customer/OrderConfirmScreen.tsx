@@ -4,6 +4,7 @@ import {
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { useTranslation } from 'react-i18next'
 import { Colors, Fonts, Radius, Spacing, T } from '../../theme'
 import { LeafletMap } from '../../components/map/LeafletMap'
 import { CTA } from '../../components/shared/CTA'
@@ -20,6 +21,7 @@ const ROUTE: LatLng[] = [PICKUP, { latitude: 49.9970, longitude: 36.2300 }, DROP
 
 export default function OrderConfirmScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets()
+  const { t } = useTranslation()
   const placeOrder = useOrderStore((s) => s.placeOrder)
   const routeCoords = useOrderStore((s) => s.routeCoords)
 
@@ -57,28 +59,28 @@ export default function OrderConfirmScreen({ navigation }: Props) {
 
       <ScrollView style={styles.sheet} contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.handle} />
-        <Text style={T.h2}>Confirm Order</Text>
+        <Text style={T.h2}>{t('orderConfirm.title')}</Text>
 
         <View style={styles.detailsCard}>
-          <DetailRow label="Pickup" value="майдан Свободи, 1" icon="🟢" />
+          <DetailRow label={t('orderConfirm.pickup')} value={t('addresses.майдан Свободи, 1', { defaultValue: 'майдан Свободи, 1' })} icon="🟢" />
           <View style={styles.divider} />
-          <DetailRow label="Dropoff" value="просп. Науки, 4" icon="🟠" />
+          <DetailRow label={t('orderConfirm.dropoff')} value={t('addresses.просп. Науки, 4', { defaultValue: 'просп. Науки, 4' })} icon="🟠" />
           <View style={styles.divider} />
-          <DetailRow label="Vehicle" value="Car" icon="🚗" />
+          <DetailRow label={t('orderConfirm.vehicle')} value={t('shared.car')} icon="🚗" />
           <View style={styles.divider} />
-          <DetailRow label="Distance" value="3.0 km" icon="📏" />
+          <DetailRow label={t('orderConfirm.distance')} value={t('shared.kmValue', { distance: 3.0 })} icon="📏" />
           <View style={styles.divider} />
-          <DetailRow label="ETA" value="11 min" icon="⏱" />
+          <DetailRow label={t('orderConfirm.eta')} value={t('shared.minAwayValue', { eta: 11 })} icon="⏱" />
         </View>
 
         <View style={styles.priceRow}>
-          <Text style={[T.h3, { color: Colors.text2 }]}>Total</Text>
+          <Text style={[T.h3, { color: Colors.text2 }]}>{t('orderConfirm.total')}</Text>
           <Text style={[T.h1, { color: Colors.mint }]}>$80.00</Text>
         </View>
 
         <CTA onPress={handlePay} color="mint">
           <Text style={{ fontFamily: Fonts.bodyBold, fontSize: 16, color: '#02110B', fontWeight: '700' }}>
-            Proceed to Tracking
+            {t('orderConfirm.proceedToTracking')}
           </Text>
         </CTA>
       </ScrollView>

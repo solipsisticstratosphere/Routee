@@ -41,6 +41,7 @@ import {
 } from '@expo-google-fonts/jetbrains-mono'
 import { RootNavigator } from './src/navigation/RootNavigator'
 import { Colors } from './src/theme/tokens'
+import './src/i18n'
 
 export default function App() {
   React.useEffect(() => {

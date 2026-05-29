@@ -6,6 +6,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
+import { useTranslation } from 'react-i18next'
 import { Colors, Fonts, Radius, Spacing, T } from '../../theme'
 import { CTA } from '../../components/shared/CTA'
 import { useAuthStore } from '../../store/authStore'
@@ -20,6 +21,7 @@ type Props = {
 export default function AuthScreen({ navigation, route }: Props) {
   const role = route.params?.role ?? 'customer'
   const insets = useSafeAreaInsets()
+  const { t } = useTranslation()
   const login = useAuthStore((s) => s.login)
 
   const [phone, setPhone] = useState('')
@@ -30,7 +32,7 @@ export default function AuthScreen({ navigation, route }: Props) {
 
   const handlePhoneSubmit = () => {
     if (phone.length < 6) {
-      Alert.alert('Enter a valid phone number')
+      Alert.alert(t('auth.enterValidPhone'))
       return
     }
     setStep('otp')
@@ -71,12 +73,12 @@ export default function AuthScreen({ navigation, route }: Props) {
 
         <View style={styles.header}>
           <Text style={T.h1}>
-            {step === 'phone' ? 'Enter your phone' : 'Enter OTP code'}
+            {step === 'phone' ? t('auth.enterPhone') : t('auth.enterOtp')}
           </Text>
           <Text style={[T.body, { color: Colors.text2, marginTop: 6 }]}>
             {step === 'phone'
-              ? `Signing in as ${role === 'driver' ? 'Driver' : 'Customer'}`
-              : `Sent to ${phone}. Enter any 6 digits.`}
+              ? t('auth.signingInAs', { role: role === 'driver' ? t('auth.roleDriver') : t('auth.roleCustomer') })
+              : t('auth.sentTo', { phone: phone || '+380' })}
           </Text>
         </View>
 
@@ -87,7 +89,7 @@ export default function AuthScreen({ navigation, route }: Props) {
             </View>
             <TextInput
               style={styles.phoneInput}
-              placeholder="Phone number"
+              placeholder={t('auth.phonePlaceholder')}
               placeholderTextColor={Colors.text3}
               keyboardType="phone-pad"
               value={phone}
@@ -119,7 +121,7 @@ export default function AuthScreen({ navigation, route }: Props) {
         <View style={styles.btnWrap}>
           {step === 'phone' && (
             <CTA onPress={handlePhoneSubmit} loading={loading} color={role === 'driver' ? 'orange' : 'mint'}>
-              <Text>Continue</Text>
+              <Text>{t('auth.continue')}</Text>
             </CTA>
           )}
           {step === 'otp' && (
@@ -129,7 +131,7 @@ export default function AuthScreen({ navigation, route }: Props) {
               color={role === 'driver' ? 'orange' : 'mint'}
               disabled={otp.some((d) => !d)}
             >
-              <Text>Verify & Login</Text>
+              <Text>{t('auth.verifyAndLogin')}</Text>
             </CTA>
           )}
         </View>

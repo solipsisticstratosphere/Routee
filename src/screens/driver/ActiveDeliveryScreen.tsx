@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { useTranslation } from 'react-i18next'
 import { Colors, Fonts, Radius, T } from '../../theme'
 import { LeafletMap } from '../../components/map/LeafletMap'
 import { CTA } from '../../components/shared/CTA'
@@ -20,7 +21,13 @@ const ROUTE: LatLng[] = [PICKUP, { latitude: 49.9970, longitude: 36.2300 }, DROP
 export default function ActiveDeliveryScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets()
   const rootNav = useNavigation<any>()
+  const { t } = useTranslation()
   const { currentOrder } = useDriverStore()
+
+  const dropoffAddr = currentOrder?.dropoff.address ?? 'просп. Науки, 4'
+  const vehicleType = currentOrder?.vehicleType ?? 'car'
+  const distanceVal = currentOrder?.distance ?? 3.0
+  const priceVal = currentOrder?.price ?? 80
 
   return (
     <View style={styles.container}>
@@ -39,25 +46,25 @@ export default function ActiveDeliveryScreen({ navigation }: Props) {
       <View style={[styles.bottomCard, { paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
-            <Text style={[T.xs, { color: Colors.text3 }]}>Delivering to</Text>
+            <Text style={[T.xs, { color: Colors.text3 }]}>{t('activeDelivery.deliveringTo')}</Text>
             <Text style={[T.bodyB, { marginTop: 4 }]} numberOfLines={1}>
-              {currentOrder?.dropoff.address ?? 'просп. Науки, 4'}
+              {t(`addresses.${dropoffAddr}`, { defaultValue: dropoffAddr })}
             </Text>
           </View>
           <View style={styles.etaBadge}>
-            <Text style={styles.etaText}>~8 min</Text>
+            <Text style={styles.etaText}>~{t('shared.minAwayValue', { eta: 8 })}</Text>
           </View>
         </View>
 
         <View style={styles.summary}>
-          <SummaryRow label="Vehicle" value={currentOrder?.vehicleType ?? 'car'} />
-          <SummaryRow label="Distance" value={`${currentOrder?.distance ?? 3.0} km`} />
-          <SummaryRow label="Earning" value={`$${currentOrder?.price ?? 80}`} accent />
+          <SummaryRow label={t('activeDelivery.vehicle')} value={t(`shared.${vehicleType}`, { defaultValue: vehicleType })} />
+          <SummaryRow label={t('activeDelivery.distance')} value={t('shared.kmValue', { distance: distanceVal })} />
+          <SummaryRow label={t('activeDelivery.earning')} value={`$${priceVal}`} accent />
         </View>
 
         <CTA color="mint" onPress={() => rootNav.navigate('QRScan')}>
           <Text style={{ fontFamily: Fonts.bodyBold, fontSize: 16, color: '#02110B', fontWeight: '700' }}>
-            Complete Delivery
+            {t('activeDelivery.completeDelivery')}
           </Text>
         </CTA>
       </View>

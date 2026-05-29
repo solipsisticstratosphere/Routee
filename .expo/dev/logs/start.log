@@ -56,3 +56,88 @@
 {"_e":"metro:bundling:progress","_t":1779890246754,"id":"c","progress":0,"total":1,"current":0}
 {"_e":"metro:bundling:done","_t":1779890246806,"id":"c","total":1,"ms":52.5894}
 {"_e":"metro:client_log","_t":1779890248871,"level":"warn","data":["InteractionManager has been deprecated and will be removed in a future release. Please refactor long tasks into smaller ones, and  use 'requestIdleCallback' instead."]}
+{"_e":"root:init","_t":1780045210427,"format":"v0-jsonl","version":"56.1.12"}
+{"_e":"env:mode","_t":1780045210428,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1780045210431,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1780045210768,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1780045211151,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"metro:instantiate","_t":1780045216972,"atlas":false,"workers":10,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1780045244760,"id":"4","platform":"android","environment":null,"entry":"index.ts"}
+{"_e":"metro:bundling:progress","_t":1780045244760,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1780045244763,"id":"4","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1780045244871,"id":"4","progress":0.006944444444444444,"total":264,"current":22}
+{"_e":"metro:bundling:progress","_t":1780045244971,"id":"4","progress":0.12869754067043374,"total":446,"current":160}
+{"_e":"metro:bundling:progress","_t":1780045245071,"id":"4","progress":0.2678871154785156,"total":512,"current":265}
+{"_e":"metro:bundling:progress","_t":1780045245171,"id":"4","progress":0.37113746537396114,"total":760,"current":463}
+{"_e":"metro:bundling:progress","_t":1780045245271,"id":"4","progress":0.38702609810003696,"total":823,"current":512}
+{"_e":"metro:bundling:progress","_t":1780045245371,"id":"4","progress":0.5590007860948554,"total":1070,"current":800}
+{"_e":"metro:bundling:progress","_t":1780045245471,"id":"4","progress":0.5788919497070907,"total":1083,"current":824}
+{"_e":"metro:bundling:progress","_t":1780045245575,"id":"4","progress":0.6673975386854831,"total":1322,"current":1080}
+{"_e":"metro:bundling:progress","_t":1780045245675,"id":"4","progress":0.6673975386854831,"total":1324,"current":1081}
+{"_e":"metro:bundling:progress","_t":1780045245691,"id":"4","progress":0.6678494172196311,"total":1324,"current":1082}
+{"_e":"metro:bundling:progress","_t":1780045245792,"id":"4","progress":0.8239437955816619,"total":1452,"current":1318}
+{"_e":"metro:bundling:progress","_t":1780045245892,"id":"4","progress":0.8351450686442689,"total":1486,"current":1358}
+{"_e":"metro:bundling:progress","_t":1780045245992,"id":"4","progress":0.8828120129963921,"total":1622,"current":1524}
+{"_e":"metro:bundling:progress","_t":1780045246092,"id":"4","progress":0.8977853471090173,"total":1791,"current":1697}
+{"_e":"metro:bundling:progress","_t":1780045246192,"id":"4","progress":0.9349519499038998,"total":1905,"current":1842}
+{"_e":"metro:bundling:done","_t":1780045246341,"id":"4","total":1905,"ms":1581.4638}
+{"_e":"metro:client_log","_t":1780045251246,"level":"warn","data":["InteractionManager has been deprecated and will be removed in a future release. Please refactor long tasks into smaller ones, and  use 'requestIdleCallback' instead."]}
+{"_e":"root:init","_t":1780045613694,"format":"v0-jsonl","version":"56.1.12"}
+{"_e":"env:mode","_t":1780045613694,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1780045613697,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1780045613968,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1780045614257,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"metro:instantiate","_t":1780045619591,"atlas":false,"workers":10,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1780045654307,"id":"2","platform":"android","environment":null,"entry":"index.ts"}
+{"_e":"metro:bundling:progress","_t":1780045654307,"id":"2","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1780045654310,"id":"2","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1780045654409,"id":"2","progress":0.14647157445511352,"total":243,"current":93}
+{"_e":"metro:bundling:progress","_t":1780045654509,"id":"2","progress":0.49032041849724295,"total":437,"current":306}
+{"_e":"metro:bundling:progress","_t":1780045654609,"id":"2","progress":0.8273803823933096,"total":531,"current":483}
+{"_e":"metro:bundling:progress","_t":1780045654709,"id":"2","progress":0.935216393560185,"total":668,"current":646}
+{"_e":"metro:bundling:progress","_t":1780045654809,"id":"2","progress":0.9971077383183833,"total":691,"current":690}
+{"_e":"metro:bundling:progress","_t":1780045654924,"id":"2","progress":0.999,"total":691,"current":691}
+{"_e":"metro:bundling:progress","_t":1780045655026,"id":"2","progress":0.999,"total":1018,"current":879}
+{"_e":"metro:bundling:progress","_t":1780045655126,"id":"2","progress":0.999,"total":1269,"current":1061}
+{"_e":"metro:bundling:progress","_t":1780045655226,"id":"2","progress":0.999,"total":1389,"current":1255}
+{"_e":"metro:bundling:progress","_t":1780045655326,"id":"2","progress":0.999,"total":1527,"current":1361}
+{"_e":"metro:bundling:progress","_t":1780045655426,"id":"2","progress":0.999,"total":1629,"current":1539}
+{"_e":"metro:bundling:progress","_t":1780045655528,"id":"2","progress":0.999,"total":1754,"current":1738}
+{"_e":"metro:bundling:progress","_t":1780045655636,"id":"2","progress":0.999,"total":1769,"current":1742}
+{"_e":"metro:bundling:progress","_t":1780045655810,"id":"2","progress":0.999,"total":1769,"current":1743}
+{"_e":"metro:bundling:progress","_t":1780045655910,"id":"2","progress":0.999,"total":1832,"current":1800}
+{"_e":"metro:bundling:progress","_t":1780045656010,"id":"2","progress":0.999,"total":1998,"current":1977}
+{"_e":"metro:bundling:done","_t":1780045656164,"id":"2","total":1998,"ms":1857.5936}
+{"_e":"metro:client_log","_t":1780045659485,"level":"warn","data":["InteractionManager has been deprecated and will be removed in a future release. Please refactor long tasks into smaller ones, and  use 'requestIdleCallback' instead."]}
+{"_e":"metro:bundling:started","_t":1780046214927,"id":"5","platform":"android","environment":null,"entry":"index.ts"}
+{"_e":"metro:bundling:progress","_t":1780046214927,"id":"5","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1780046214982,"id":"5","total":1,"ms":55.5166}
+{"_e":"metro:client_log","_t":1780046218279,"level":"warn","data":["InteractionManager has been deprecated and will be removed in a future release. Please refactor long tasks into smaller ones, and  use 'requestIdleCallback' instead."]}
+{"_e":"metro:bundling:started","_t":1780046300812,"id":"7","platform":"android","environment":null,"entry":"index.ts"}
+{"_e":"metro:bundling:progress","_t":1780046300813,"id":"7","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1780046300866,"id":"7","total":1,"ms":53.4953}
+{"_e":"metro:client_log","_t":1780046303921,"level":"warn","data":["InteractionManager has been deprecated and will be removed in a future release. Please refactor long tasks into smaller ones, and  use 'requestIdleCallback' instead."]}
+{"_e":"metro:bundling:started","_t":1780046598772,"id":"9","platform":"android","environment":null,"entry":"index.ts"}
+{"_e":"metro:bundling:progress","_t":1780046598772,"id":"9","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1780046598823,"id":"9","total":1,"ms":51.0696}
+{"_e":"metro:client_log","_t":1780046601945,"level":"warn","data":["InteractionManager has been deprecated and will be removed in a future release. Please refactor long tasks into smaller ones, and  use 'requestIdleCallback' instead."]}
+{"_e":"metro:bundling:started","_t":1780047574598,"id":"e","platform":"android","environment":null,"entry":"index.ts"}
+{"_e":"metro:bundling:progress","_t":1780047574598,"id":"e","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1780047574651,"id":"e","total":1,"ms":53.0243}
+{"_e":"metro:client_log","_t":1780047578078,"level":"warn","data":["InteractionManager has been deprecated and will be removed in a future release. Please refactor long tasks into smaller ones, and  use 'requestIdleCallback' instead."]}
+{"_e":"metro:bundling:started","_t":1780048364969,"id":"i","platform":"android","environment":null,"entry":"index.ts"}
+{"_e":"metro:bundling:progress","_t":1780048364969,"id":"i","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1780048365022,"id":"i","total":1,"ms":53.0043}
+{"_e":"metro:client_log","_t":1780048369088,"level":"warn","data":["InteractionManager has been deprecated and will be removed in a future release. Please refactor long tasks into smaller ones, and  use 'requestIdleCallback' instead."]}
+{"_e":"metro:bundling:started","_t":1780056510900,"id":"n","platform":"android","environment":null,"entry":"index.ts"}
+{"_e":"metro:bundling:progress","_t":1780056510900,"id":"n","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1780056510903,"id":"n","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1780056511021,"id":"n","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1780056511031,"id":"n","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1780056511131,"id":"n","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1780056511231,"id":"n","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1780056511331,"id":"n","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1780056511431,"id":"n","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1780056511532,"id":"n","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1780056511652,"id":"n","total":1,"ms":751.8916}
+{"_e":"metro:client_log","_t":1780056515229,"level":"warn","data":["InteractionManager has been deprecated and will be removed in a future release. Please refactor long tasks into smaller ones, and  use 'requestIdleCallback' instead."]}

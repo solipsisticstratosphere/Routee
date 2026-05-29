@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, Dimensions } from 'react-native'
 import { BarChart } from 'react-native-chart-kit'
+import { useTranslation } from 'react-i18next'
 import { Colors, Fonts } from '../../theme/tokens'
 import { Earnings } from '../../types'
 
@@ -11,9 +12,13 @@ interface EarningsChartProps {
 }
 
 export function EarningsChart({ data }: EarningsChartProps) {
+  const { i18n } = useTranslation()
   const labels = data.map((d) => {
     const date = new Date(d.date)
-    return ['Su','Mo','Tu','We','Th','Fr','Sa'][date.getDay()]
+    const days = i18n.language === 'uk'
+      ? ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+      : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+    return days[date.getDay()]
   })
 
   const chartData = {

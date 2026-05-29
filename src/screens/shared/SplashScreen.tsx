@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StackNavigationProp } from '@react-navigation/stack'
 import Svg, { Path, Rect, Circle, Defs, RadialGradient, Stop } from 'react-native-svg'
+import { useTranslation } from 'react-i18next'
 import Animated, {
   useSharedValue, useAnimatedStyle,
   withSpring, withTiming, withRepeat, withSequence, withDelay,
@@ -69,6 +70,7 @@ function AnimatedLogo({ size = 56 }: { size?: number }) {
 
 export default function SplashScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets()
+  const { t } = useTranslation()
   const setRole = useAuthStore((s) => s.setRole)
 
   const handleCustomer = () => {
@@ -92,27 +94,27 @@ export default function SplashScreen({ navigation }: Props) {
         <AnimatedLogo size={80} />
         <Text style={[T.display, styles.appName]}>Routee</Text>
         <Text style={[T.body, styles.tagline]}>
-          Delivery & rides on demand —{'\n'}everything moving, all at once.
+          {t('splash.tagline')}
         </Text>
       </View>
 
       {/* CTAs */}
       <View style={[styles.ctas, { paddingBottom: insets.bottom + 24 }]}>
         <CTA color="mint" onPress={handleCustomer}>
-          <Text style={styles.ctaText}>I'm a Customer</Text>
+          <Text style={styles.ctaText}>{t('splash.customerBtn')}</Text>
           <ArrowIcon size={18} color="#02110B" />
         </CTA>
         <CTA color="orange" onPress={handleDriver}>
-          <Text style={[styles.ctaText, { color: '#1A0700' }]}>I'm a Driver</Text>
+          <Text style={[styles.ctaText, { color: '#1A0700' }]}>{t('splash.driverBtn')}</Text>
           <ArrowIcon size={18} color="#1A0700" />
         </CTA>
         <Text style={[T.sm, styles.signin]}>
-          Already have an account?{' '}
+          {t('splash.alreadyHaveAccount')}{' '}
           <Text
             style={{ color: Colors.mint, fontWeight: '600' }}
             onPress={handleCustomer}
           >
-            Sign in
+            {t('splash.signIn')}
           </Text>
         </Text>
       </View>

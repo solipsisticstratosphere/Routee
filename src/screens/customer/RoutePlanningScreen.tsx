@@ -5,6 +5,7 @@ import {
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { useTranslation } from 'react-i18next'
 import { Colors, Fonts, Radius, Spacing, T } from '../../theme'
 import { LeafletMap } from '../../components/map/LeafletMap'
 import { VehicleTypeSelector } from '../../components/order/VehicleTypeSelector'
@@ -36,10 +37,16 @@ const PRICES: Record<string, { bike: number; car: number; van: number }> = {
 
 export default function RoutePlanningScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets()
+  const { t, i18n } = useTranslation()
   const [vehicle, setVehicle] = useState<'bike' | 'car' | 'van'>('car')
-  const [origin, setOrigin] = useState(DEFAULT_PICKUP.address)
-  const [destination, setDestination] = useState(DEFAULT_DROPOFF.address)
+  const [origin, setOrigin] = useState(() => t(`addresses.${DEFAULT_PICKUP.address}`, { defaultValue: DEFAULT_PICKUP.address }))
+  const [destination, setDestination] = useState(() => t(`addresses.${DEFAULT_DROPOFF.address}`, { defaultValue: DEFAULT_DROPOFF.address }))
   const setRouteCoords = useOrderStore((s) => s.setRouteCoords)
+
+  React.useEffect(() => {
+    setOrigin(t(`addresses.${DEFAULT_PICKUP.address}`, { defaultValue: DEFAULT_PICKUP.address }))
+    setDestination(t(`addresses.${DEFAULT_DROPOFF.address}`, { defaultValue: DEFAULT_DROPOFF.address }))
+  }, [i18n.language])
 
   const price = PRICES.base[vehicle]
 
@@ -72,7 +79,7 @@ export default function RoutePlanningScreen({ navigation }: Props) {
           <Pressable onPress={() => navigation.goBack()} style={styles.backBtn}>
             <BackIcon size={20} color={Colors.text} />
           </Pressable>
-          <Text style={T.h3}>Plan Route</Text>
+          <Text style={T.h3}>{t('routePlanning.title')}</Text>
           <View style={{ width: 36 }} />
         </View>
 
@@ -89,7 +96,7 @@ export default function RoutePlanningScreen({ navigation }: Props) {
                 style={styles.input}
                 value={origin}
                 onChangeText={setOrigin}
-                placeholder="Pickup"
+                placeholder={t('routePlanning.pickup')}
                 placeholderTextColor={Colors.text3}
               />
               <View style={styles.inputDivider} />
@@ -97,50 +104,50 @@ export default function RoutePlanningScreen({ navigation }: Props) {
                 style={styles.input}
                 value={destination}
                 onChangeText={setDestination}
-                placeholder="Destination"
+                placeholder={t('routePlanning.destination')}
                 placeholderTextColor={Colors.text3}
               />
             </View>
           </View>
 
           {/* recent */}
-          <Text style={[T.xs, styles.sectionLabel]}>Recent</Text>
+          <Text style={[T.xs, styles.sectionLabel]}>{t('routePlanning.recent')}</Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.chipRow}
           >
             {RECENT.map((dest) => (
-              <Pressable key={dest} onPress={() => setDestination(dest)} style={styles.chip}>
+              <Pressable key={dest} onPress={() => setDestination(t(`addresses.${dest}`, { defaultValue: dest }))} style={styles.chip}>
                 <ClockIcon size={12} color={Colors.text3} />
-                <Text style={styles.chipText} numberOfLines={1}>{dest}</Text>
+                <Text style={styles.chipText} numberOfLines={1}>{t(`addresses.${dest}`, { defaultValue: dest })}</Text>
               </Pressable>
             ))}
           </ScrollView>
           {RECENT.map((dest) => (
-            <Pressable key={dest} onPress={() => setDestination(dest)} style={styles.recentRow}>
+            <Pressable key={dest} onPress={() => setDestination(t(`addresses.${dest}`, { defaultValue: dest }))} style={styles.recentRow}>
               <View style={styles.recentIcon}>
                 <PinIcon size={14} color={Colors.text2} />
               </View>
-              <Text style={styles.recentText}>{dest}</Text>
+              <Text style={styles.recentText}>{t(`addresses.${dest}`, { defaultValue: dest })}</Text>
             </Pressable>
           ))}
 
           <View style={styles.sectionDivider} />
 
           {/* vehicle */}
-          <Text style={[T.xs, styles.sectionLabel]}>Vehicle</Text>
+          <Text style={[T.xs, styles.sectionLabel]}>{t('routePlanning.vehicle')}</Text>
           <VehicleTypeSelector selected={vehicle} onSelect={setVehicle} />
 
           {/* price */}
           <View style={styles.priceRow}>
-            <Text style={[T.sm, { color: Colors.text2 }]}>Estimated fare</Text>
+            <Text style={[T.sm, { color: Colors.text2 }]}>{t('routePlanning.estimatedFare')}</Text>
             <Text style={[T.h3, { color: Colors.mint }]}>${price}</Text>
           </View>
 
           <View style={{ paddingHorizontal: 16, paddingBottom: insets.bottom + 24 }}>
             <CTA onPress={handleConfirm} color="mint">
-              <Text style={styles.btnText}>Confirm Route</Text>
+              <Text style={styles.btnText}>{t('routePlanning.confirmRoute')}</Text>
             </CTA>
           </View>
         </ScrollView>
